@@ -6,9 +6,7 @@ using InventoryManagement.Exceptions;
 
 namespace InventoryManagement.Services
 {
-    // ─────────────────────────────────────────────
     //  CategoryService
-    // ─────────────────────────────────────────────
     public class CategoryService
     {
         private readonly CategoryRepository _repo;
@@ -60,9 +58,9 @@ namespace InventoryManagement.Services
         }
     }
 
-    // ─────────────────────────────────────────────
+
     //  InventoryService
-    // ─────────────────────────────────────────────
+    
     public class InventoryService
     {
         private readonly InventoryRepository _inventoryRepo;
@@ -114,9 +112,9 @@ namespace InventoryManagement.Services
         }
     }
 
-    // ─────────────────────────────────────────────
+
     //  TransactionService
-    // ─────────────────────────────────────────────
+
     public class TransactionService
     {
         private readonly TransactionRepository _repo;
