@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using InventoryManagement.Models;
 using InventoryManagement.Exceptions;
 
@@ -167,8 +167,8 @@ namespace InventoryManagement.Data
         // Insert a new product and create its inventory record — returns new ProductId
         public int Add(Product product)
         {
-            if (SKUExists(product.SKU))
-                throw new DuplicateSKUException(product.SKU);
+            if (SKUExists(product.SKU!))
+                throw new DuplicateSKUException(product.SKU!);
 
             try
             {
@@ -215,8 +215,8 @@ namespace InventoryManagement.Data
         // Update existing product
         public bool Update(Product product)
         {
-            if (SKUExists(product.SKU, product.ProductId))
-                throw new DuplicateSKUException(product.SKU);
+            if (SKUExists(product.SKU!, product.ProductId))
+                throw new DuplicateSKUException(product.SKU!);
 
             string sql = @"
                 UPDATE Products

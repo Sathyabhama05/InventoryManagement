@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using InventoryManagement.Models;
 using InventoryManagement.Exceptions;
 
@@ -80,7 +80,7 @@ namespace InventoryManagement.Data
         // Insert new category, returns new ID
         public int Add(Category category)
         {
-            if (NameExists(category.Name))
+            if (NameExists(category.Name!))
                 throw new InvalidInputException($"Category '{category.Name}' already exists.");
 
             string sql = @"INSERT INTO Categories (Name, Description)

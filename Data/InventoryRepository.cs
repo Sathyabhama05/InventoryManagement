@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using InventoryManagement.Models;
 using InventoryManagement.Exceptions;
 
@@ -67,7 +67,7 @@ namespace InventoryManagement.Data
         }
 
         // Get inventory record for a specific product
-        public InventoryItem GetByProductId(int productId)
+        public InventoryItem? GetByProductId(int productId)
         {
             string sql = @"
                 SELECT i.*, p.Name AS ProductName, p.SKU
