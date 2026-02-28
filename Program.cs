@@ -108,8 +108,8 @@ namespace InventoryManagement
                     Console.ForegroundColor = p.CurrentStock == 0 ? ConsoleColor.Red
                                             : p.IsLowStock        ? ConsoleColor.Yellow
                                                                    : ConsoleColor.White;
-                    PrintRow((p.ProductId.ToString(),6),(p.Name,26),(p.SKU,12),
-                             (p.Price.ToString("C"),10),(p.CategoryName,18),(p.CurrentStock.ToString(),8));
+                    PrintRow((p.ProductId.ToString(),6),(p.Name!,26),(p.SKU!,12),
+                             (p.Price.ToString("C"),10),(p.CategoryName!,18),(p.CurrentStock.ToString(),8));
                     Console.ResetColor();
                 }
                 PrintInfo($"Total: {list.Count} product(s)");
@@ -174,8 +174,8 @@ namespace InventoryManagement
                 PrintInfo($"Editing: {p.Name} (SKU: {p.SKU})");
                 PrintInfo("Press Enter to keep the current value.\n");
 
-                string name  = ReadStringOptional($"Name [{p.Name}]",        p.Name);
-                string sku   = ReadStringOptional($"SKU  [{p.SKU}]",         p.SKU);
+                string name  = ReadStringOptional($"Name [{p.Name}]",        p.Name!);
+                string sku   = ReadStringOptional($"SKU  [{p.SKU}]",         p.SKU!);
                 string priceStr = ReadStringOptional($"Price [{p.Price:C}]", p.Price.ToString());
                 decimal price = decimal.TryParse(priceStr, out decimal parsed) ? parsed : p.Price;
 
@@ -186,7 +186,7 @@ namespace InventoryManagement
                 string catStr = ReadStringOptional($"Category ID [{p.CategoryId}]", p.CategoryId.ToString());
                 int catId = int.TryParse(catStr, out int cid) ? cid : p.CategoryId;
 
-                string desc = ReadStringOptional($"Description [{p.Description}]", p.Description);
+                string desc = ReadStringOptional($"Description [{p.Description}]", p.Description!);
 
                 if (Confirm("Save changes?"))
                 {
@@ -228,8 +228,8 @@ namespace InventoryManagement
 
                 PrintTableHeader(("ID",6),("Name",26),("SKU",12),("Price",10),("Category",18),("Stock",8));
                 foreach (var p in results)
-                    PrintRow((p.ProductId.ToString(),6),(p.Name,26),(p.SKU,12),
-                             (p.Price.ToString("C"),10),(p.CategoryName,18),(p.CurrentStock.ToString(),8));
+                    PrintRow((p.ProductId.ToString(),6),(p.Name!,26),(p.SKU!,12),
+                             (p.Price.ToString("C"),10),(p.CategoryName!,18),(p.CurrentStock.ToString(),8));
                 PrintInfo($"Found: {results.Count} result(s)");
             });
             Pause();
@@ -248,7 +248,7 @@ namespace InventoryManagement
 
                 PrintTableHeader(("ID",6),("Name",30),("SKU",12),("Price",10),("Stock",8));
                 foreach (var p in results)
-                    PrintRow((p.ProductId.ToString(),6),(p.Name,30),(p.SKU,12),
+                    PrintRow((p.ProductId.ToString(),6),(p.Name!,30),(p.SKU!,12),
                              (p.Price.ToString("C"),10),(p.CurrentStock.ToString(),8));
             });
             Pause();
@@ -281,7 +281,7 @@ namespace InventoryManagement
                             if (cats.Count == 0) { PrintWarning("No categories."); return; }
                             PrintTableHeader(("ID",5),("Name",25),("Description",40));
                             foreach (var c in cats)
-                                PrintRow((c.CategoryId.ToString(),5),(c.Name,25),(c.Description,40));
+                                PrintRow((c.CategoryId.ToString(),5),(c.Name!,25),(c.Description!,40));
                         });
                         Pause();
                         break;
@@ -304,8 +304,8 @@ namespace InventoryManagement
                         {
                             int id  = ReadInt("Category ID to update", 1);
                             var cat = _categoryService.GetById(id);
-                            string name = ReadStringOptional($"Name [{cat.Name}]", cat.Name);
-                            string desc = ReadStringOptional($"Desc [{cat.Description}]", cat.Description);
+                            string name = ReadStringOptional($"Name [{cat.Name}]", cat.Name!);
+                            string desc = ReadStringOptional($"Desc [{cat.Description}]", cat.Description!);
                             _categoryService.Update(id, name, desc);
                             PrintSuccess("Category updated.");
                         });
@@ -362,7 +362,7 @@ namespace InventoryManagement
                                 Console.ForegroundColor = item.IsOutOfStock ? ConsoleColor.Red
                                                         : item.IsLowStock   ? ConsoleColor.Yellow
                                                                              : ConsoleColor.White;
-                                PrintRow((item.ProductId.ToString(),7),(item.ProductName,28),(item.SKU,12),
+                                PrintRow((item.ProductId.ToString(),7),(item.ProductName!,28),(item.SKU!,12),
                                          (item.Quantity.ToString(),8),(item.MinStockLevel.ToString(),8),
                                          (item.IsOutOfStock ? "OUT OF STOCK" : item.IsLowStock ? "LOW STOCK" : "OK",12));
                                 Console.ResetColor();
@@ -419,7 +419,7 @@ namespace InventoryManagement
                             foreach (var item in items)
                             {
                                 Console.ForegroundColor = item.IsOutOfStock ? ConsoleColor.Red : ConsoleColor.Yellow;
-                                PrintRow((item.ProductId.ToString(),7),(item.ProductName,28),(item.SKU,12),
+                                PrintRow((item.ProductId.ToString(),7),(item.ProductName!,28),(item.SKU!,12),
                                          (item.Quantity.ToString(),8),(item.MinStockLevel.ToString(),8),
                                          (item.IsOutOfStock ? "OUT OF STOCK" : "LOW STOCK",12));
                                 Console.ResetColor();
@@ -492,7 +492,7 @@ namespace InventoryManagement
                             {
                                 Console.ForegroundColor = t.Type == TransactionType.IN ? ConsoleColor.Green : ConsoleColor.Red;
                                 PrintRow((t.TransactionId.ToString(),6),(t.TransactionDate.ToString("yyyy-MM-dd HH:mm"),18),
-                                         (t.Type.ToString(),6),(t.ProductName,24),(t.Quantity.ToString(),8),(t.Notes,20));
+                                         (t.Type.ToString(),6),(t.ProductName!,24),(t.Quantity.ToString(),8),(t.Notes!,20));
                                 Console.ResetColor();
                             }
                         });
