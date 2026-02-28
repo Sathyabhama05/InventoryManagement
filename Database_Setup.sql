@@ -1,14 +1,15 @@
+DROP DATABASE InventoryDB;
+GO
 CREATE DATABASE InventoryDB;
 GO
 
 USE InventoryDB;
 GO
-
+DROP TABLE IF EXISTS Categories;
 -- 1. Categories
 CREATE TABLE Categories (
     CategoryId  INT IDENTITY(1,1) PRIMARY KEY,
-    Name        NVARCHAR(100) NOT NULL UNIQUE,
-    Description NVARCHAR(255) DEFAULT '',
+    CategoryName   NVARCHAR(100) NOT NULL UNIQUE,
     CreatedAt   DATETIME      DEFAULT GETDATE(),
     IsActive    BIT           DEFAULT 1
 );
@@ -16,9 +17,8 @@ CREATE TABLE Categories (
 -- 2. Products
 CREATE TABLE Products (
     ProductId   INT IDENTITY(1,1) PRIMARY KEY,
-    Name        NVARCHAR(150) NOT NULL,
+    CategoryName   NVARCHAR(150) NOT NULL,
     SKU         NVARCHAR(50)  NOT NULL UNIQUE,
-    Description NVARCHAR(500) DEFAULT '',
     Price       DECIMAL(18,2) NOT NULL,
     CategoryId  INT FOREIGN KEY REFERENCES Categories(CategoryId),
     CreatedAt   DATETIME      DEFAULT GETDATE(),
@@ -47,12 +47,12 @@ CREATE TABLE Transactions (
 GO
 
 -- Seed 5 starter categories
-INSERT INTO Categories (Name, Description) VALUES
-('Electronics',      'Electronic devices and accessories'),
-('Clothing',         'Apparel and fashion items'),
-('Food & Beverages', 'Consumable food products'),
-('Office Supplies',  'Office and stationery items'),
-('Tools & Hardware', 'Tools and hardware equipment');
+INSERT INTO Categories (CategoryName) VALUES
+('Electronics'),
+('Clothing'),
+('Food & Beverages'),
+('Office Supplies'),
+('Tools & Hardware');
 GO
 
 PRINT 'Database setup complete!';
