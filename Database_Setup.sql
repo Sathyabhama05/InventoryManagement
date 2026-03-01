@@ -1,8 +1,3 @@
-DROP DATABASE InventoryDB;
-GO
-CREATE DATABASE InventoryDB;
-GO
-
 USE InventoryDB;
 GO
 DROP TABLE IF EXISTS Categories;
@@ -17,8 +12,9 @@ CREATE TABLE Categories (
 -- 2. Products
 CREATE TABLE Products (
     ProductId   INT IDENTITY(1,1) PRIMARY KEY,
-    CategoryName   NVARCHAR(150) NOT NULL,
+    Name        NVARCHAR(150) NOT NULL,
     SKU         NVARCHAR(50)  NOT NULL UNIQUE,
+    Description NVARCHAR(500) DEFAULT '',
     Price       DECIMAL(18,2) NOT NULL,
     CategoryId  INT FOREIGN KEY REFERENCES Categories(CategoryId),
     CreatedAt   DATETIME      DEFAULT GETDATE(),

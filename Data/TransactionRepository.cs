@@ -13,7 +13,7 @@ namespace InventoryManagement.Data
         {
             var list = new List<Transaction>();
             string sql = @"
-                SELECT TOP (@Limit) t.*, p.Name AS ProductName
+                SELECT TOP (@Limit) t.*, p.ProductName AS ProductName
                 FROM Transactions t
                 JOIN Products p ON t.ProductId = p.ProductId
                 ORDER BY t.TransactionDate DESC";
@@ -44,7 +44,7 @@ namespace InventoryManagement.Data
         {
             var list = new List<Transaction>();
             string sql = @"
-                SELECT t.*, p.Name AS ProductName
+                SELECT t.*, p.ProductName AS ProductName
                 FROM Transactions t
                 JOIN Products p ON t.ProductId = p.ProductId
                 WHERE t.ProductId = @ProdId
@@ -76,7 +76,7 @@ namespace InventoryManagement.Data
         {
             var list = new List<Transaction>();
             string sql = @"
-                SELECT t.*, p.Name AS ProductName
+                SELECT t.*, p.ProductName AS ProductName
                 FROM Transactions t
                 JOIN Products p ON t.ProductId = p.ProductId
                 WHERE t.TransactionDate BETWEEN @From AND @To

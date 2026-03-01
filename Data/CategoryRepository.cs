@@ -12,7 +12,7 @@ namespace InventoryManagement.Data
         public List<Category> GetAll()
         {
             var list = new List<Category>();
-            string sql = "SELECT * FROM Categories WHERE IsActive = 1 ORDER BY Name";
+            string sql = "SELECT * FROM Categories WHERE IsActive = 1 ORDER BY CategoryName";
 
             try
             {
@@ -61,7 +61,7 @@ namespace InventoryManagement.Data
         // Check if a category name already exists
         public bool NameExists(string name)
         {
-            string sql = "SELECT COUNT(*) FROM Categories WHERE Name = @Name AND IsActive = 1";
+            string sql = "SELECT COUNT(*) FROM Categories WHERE categoryName = @Name AND IsActive = 1";
             try
             {
                 using (var conn = DatabaseConnection.GetConnection())
@@ -83,16 +83,16 @@ namespace InventoryManagement.Data
             if (NameExists(category.Name!))
                 throw new InvalidInputException($"Category '{category.Name}' already exists.");
 
-            string sql = @"INSERT INTO Categories (Name, Description)
+            string sql = @"INSERT INTO Categories (CategoryName)
                            OUTPUT INSERTED.CategoryId
-                           VALUES (@Name, @Desc)";
+                           VALUES (@Name)";
             try
             {
                 using (var conn = DatabaseConnection.GetConnection())
                 using (var cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@Name", category.Name);
-                    cmd.Parameters.AddWithValue("@Desc", category.Description ?? "");
+                    
                     return (int)cmd.ExecuteScalar();
                 }
             }
@@ -106,15 +106,14 @@ namespace InventoryManagement.Data
         public bool Update(Category category)
         {
             string sql = @"UPDATE Categories 
-                           SET Name = @Name, Description = @Desc
-                           WHERE CategoryId = @Id AND IsActive = 1";
+               SET CategoryName = @Name
+               WHERE CategoryId = @Id AND IsActive = 1";
             try
             {
                 using (var conn = DatabaseConnection.GetConnection())
                 using (var cmd = new SqlCommand(sql, conn))
                 {
                     cmd.Parameters.AddWithValue("@Name", category.Name);
-                    cmd.Parameters.AddWithValue("@Desc", category.Description ?? "");
                     cmd.Parameters.AddWithValue("@Id", category.CategoryId);
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -150,8 +149,7 @@ namespace InventoryManagement.Data
             return new Category
             {
                 CategoryId  = (int)reader["CategoryId"],
-                Name        = reader["Name"].ToString(),
-                Description = reader["Description"].ToString(),
+                Name        = reader["CategoryName"].ToString(),
                 CreatedAt   = (DateTime)reader["CreatedAt"],
                 IsActive    = (bool)reader["IsActive"]
             };

@@ -13,7 +13,7 @@ namespace InventoryManagement.Data
         {
             var list = new List<Product>();
             string sql = @"
-                SELECT p.*, c.Name AS CategoryName,
+                SELECT p.*, c.CategoryName AS CategoryName,
                        ISNULL(i.Quantity, 0)      AS CurrentStock,
                        ISNULL(i.MinStockLevel, 5) AS MinStockLevel
                 FROM Products p
@@ -44,7 +44,7 @@ namespace InventoryManagement.Data
         public Product GetById(int id)
         {
             string sql = @"
-                SELECT p.*, c.Name AS CategoryName,
+                SELECT p.*, c.CategoryName AS CategoryName,
                        ISNULL(i.Quantity, 0)      AS CurrentStock,
                        ISNULL(i.MinStockLevel, 5) AS MinStockLevel
                 FROM Products p
@@ -78,14 +78,14 @@ namespace InventoryManagement.Data
         {
             var list = new List<Product>();
             string sql = @"
-                SELECT p.*, c.Name AS CategoryName,
+                SELECT p.*, c.CategoryName AS CategoryName,
                        ISNULL(i.Quantity, 0)      AS CurrentStock,
                        ISNULL(i.MinStockLevel, 5) AS MinStockLevel
                 FROM Products p
                 LEFT JOIN Categories c  ON p.CategoryId = c.CategoryId
                 LEFT JOIN Inventory i   ON p.ProductId  = i.ProductId
                 WHERE p.IsActive = 1
-                  AND (p.Name LIKE @T OR p.SKU LIKE @T OR p.Description LIKE @T OR c.Name LIKE @T)
+                  AND (p.Name LIKE @T OR p.SKU LIKE @T OR p.Description LIKE @T OR c.CategoryName LIKE @T)
                 ORDER BY p.Name";
 
             try
@@ -114,7 +114,7 @@ namespace InventoryManagement.Data
         {
             var list = new List<Product>();
             string sql = @"
-                SELECT p.*, c.Name AS CategoryName,
+                SELECT p.*, c.CategoryName AS CategoryName,
                        ISNULL(i.Quantity, 0)      AS CurrentStock,
                        ISNULL(i.MinStockLevel, 5) AS MinStockLevel
                 FROM Products p
